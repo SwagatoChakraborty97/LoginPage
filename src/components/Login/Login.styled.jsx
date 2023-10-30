@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import BannerImg from "../Login/banner_img.png";
+import "font-awesome/css/font-awesome.min.css";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -67,12 +68,12 @@ const Header = styled.h1`
 const Input = styled.input`
   padding: 4%;
   font-size: medium;
-  min-width: 360%;
+  min-width: 335%;
   margin: 2% 0;
   @media (max-width: 1024px) {
     min-width: max-content;
     padding: 1%;
-    min-width: 92vw;
+    min-width: 93vw;
     margin: 0.2%;
   }
 `;
@@ -85,6 +86,7 @@ const Field = styled.div`
     padding: 0;
     margin: 1.2% 0 0 0.5%;
   }
+  //   border: solid 2px green;
 `;
 
 const Button = styled.a`
@@ -139,21 +141,31 @@ const ChangePasswordLink = styled.a`
   }
 `;
 
-export const Login = () => {
-  const togglePassword = () => {
-    const pswrd = document.getElementById("password_1");
-    const eyeicon = document.getElementById("eye_1");
-    // console.log(pswrd.type);
-    // console.log(eyeicon[0].textContent);
-    if (pswrd.type == "password") {
-      pswrd.type = "text";
-      eyeicon.textContent = "visibility";
-    } else {
-      pswrd.type = "password";
-      eyeicon.textContent = "visibility_off";
+const TogglePasswordButton = styled.span`
+  & span {
+    border: none;
+    font-size: medium;
+    cursor: pointer;
+    position: relative;
+    right: 160%;
+    top: 35%;
+    @media (max-width: 1024px) {
+      left: -170%;
     }
-    // console.log(pswrd.type, eyeicon.textContent);
+    @media (max-width: 700px) {
+        top: 26%;
+        right: 6vw;
+    }
+  }
+`;
+
+export const Login = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
   };
+
   return (
     <>
       <LoginContainer>
@@ -178,13 +190,22 @@ export const Login = () => {
             <label htmlFor="" className="item bold">
               Password
             </label>
-            <Input
-              type="password"
-              name=""
-              id=""
-              placeholder="Enter Password"
-              className="form-fields"
-            />
+            <div style={{ display: "flex" }}>
+              <Input
+                type={showPassword ? "text" : "password"}
+                name=""
+                id="password_1"
+                placeholder="Enter Password"
+                className="form-fields"
+              />
+              <TogglePasswordButton onClick={togglePassword}>
+                {showPassword ? (
+                  <span class="material-symbols-outlined">visibility</span>
+                ) : (
+                  <span class="material-symbols-outlined">visibility_off</span>
+                )}
+              </TogglePasswordButton>
+            </div>
           </Field>
           <CheckboxContainer>
             <div id="chkbox">
